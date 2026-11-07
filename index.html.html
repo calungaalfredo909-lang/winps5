@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PS5 Raffle — Win a PlayStation 5 Standard (1TB) for just $10 in USDT</title>
+  <meta name="description" content="Win a PlayStation 5 Standard (1TB with disc drive) for just $10 in USDT (TRC20). Audited raffle. Guaranteed delivery. 100% crypto-secured." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0a0e17;
+      --bg-card: #121824;
+      --border-color: #1e2a42;
+      --accent-blue: #2563eb;
+      --accent-cyan: #06b6d4;
+      --accent-green: #10b981;
+      --text-main: #e2e8f0;
+      --text-muted: #94a3b8;
+    }
+    * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(37, 99, 235, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(37, 99, 235, 0.05) 1px, transparent 1px);
+      background-size: 48px 48px;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .card:hover {
+      border-color: rgba(37, 99, 235, 0.4);
+      transform: translateY(-2px);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: 700;
+      padding: 14px 28px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      font-weight: 600;
+      padding: 14px 28px;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .btn-secondary:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+    .text-gradient {
+      background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #10b981 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .mono { font-family: 'SF Mono', 'Courier New', monospace; }
+    .float-anim { animation: float 6s ease-in-out infinite; }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-12px); } }
+    .pulse-dot { animation: pulseGlow 2s infinite; }
+    @keyframes pulseGlow { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .toast-in { animation: toastIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+    .toast-out { animation: toastOut 0.4s ease forwards; }
+    @keyframes toastIn { from { opacity: 0; transform: translateX(-120%); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateX(-120%); } }
+    .carousel-slide { transition: opacity 0.4s ease; }
+    .hidden-slide { opacity: 0; pointer-events: none; position: absolute; inset: 0; }
+    .active-slide { opacity: 1; position: relative; }
+    .carousel-btn {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .carousel-btn:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #334155; transition: background 0.3s; }
+    .dot.active { background: var(--accent-blue); }
+    .ticket-option {
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: transparent;
+      width: 100%;
+    }
+    .ticket-option:hover { border-color: rgba(37, 99, 235, 0.4); }
+    .ticket-option.active {
+      border-color: var(--accent-blue);
+      background: rgba(37, 99, 235, 0.1);
+      box-shadow: 0 0 20px rgba(37, 99, 235, 0.15);
+    }
+    .progress-bar-fill { background: linear-gradient(90deg, #2563eb, #06b6d4); }
+    .page { display: none; }
+    .page.active { display: block; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-dark); }
+    ::-webkit-scrollbar-thumb { background: #1e2a42; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+    details summary { cursor: pointer; list-style: none; }
+    details summary::-webkit-details-marker { display: none; }
+    details[open] .faq-icon { transform: rotate(45deg); }
+    .faq-icon { transition: transform 0.2s; }
+    
+    /* Imagens */
+    .img-real {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6));
+      transition: transform 0.3s ease;
+    }
+    .img-real:hover { transform: scale(1.02); }
+    .carousel-img-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, #1e293b 0%, #05060a 80%);
+      padding: 20px;
+      height: 100%;
+    }
+    .avatar-img {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--border-color);
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- ===================== TOP BANNER ===================== -->
+<div class="fixed top-0 left-0 right-0 z-50 bg-[#0f172a] border-b border-[#1e2a42]">
+  <div class="max-w-7xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-center gap-x-6 gap-y-1 text-xs sm:text-sm">
+    <div class="flex items-center gap-2">
+      <span class="w-2 h-2 rounded-full bg-[#10b981] pulse-dot"></span>
+      <span class="text-[#94a3b8] font-medium">Live raffle</span>
+    </div>
+    <span class="text-[#334155]">|</span>
+    <div class="flex items-center gap-2">
+      <span class="text-[#94a3b8]">Ends in:</span>
+      <span id="bannerCountdown" class="mono font-bold text-white tracking-wider">--d --h --m --s</span>
+    </div>
+    <span class="text-[#334155]">|</span>
+    <div class="flex items-center gap-2">
+      <span class="text-[#10b981] font-bold"><span id="bannerSpots">153</span> spots left</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav class="fixed top-[42px] left-0 right-0 z-40 bg-[#0a0e17]/90 backdrop-blur-xl border-b border-[#1e2a42]">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <a href="#" onclick="showPage('home');return false;" class="flex items-center gap-2.5">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#2563eb] to-[#1e40af] flex items-center justify-center shadow-lg shadow-blue-500/20">
+        <span class="font-black text-white text-sm">PS5</span>
+      </div>
+      <span class="font-extrabold text-lg tracking-tight text-white">RAFFLE<span class="text-[#2563eb]">.gg</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-[#94a3b8]">
+      <a href="#how" class="hover:text-white transition">How it works</a>
+      <a href="#prize" class="hover:text-white transition">Prize</a>
+      <a href="#payment" class="hover:text-white transition">Payment</a>
+      <a href="#faq" class="hover:text-white transition">FAQ</a>
+      <a href="#payment" class="btn-primary text-sm !py-2.5 !px-6">Enter Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div id="page-home" class="page active pt-[120px]">
+
+  <!-- HERO -->
+  <section class="relative overflow-hidden bg-grid">
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-[#2563eb]/10 rounded-full blur-[150px] pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center relative">
+      <div class="reveal">
+        <div class="inline-flex items-center gap-2 bg-[#10b981]/10 border border-[#10b981]/20 rounded-full px-4 py-1.5 mb-6">
+          <span class="w-2 h-2 bg-[#10b981] rounded-full pulse-dot"></span>
+          <span class="text-[#10b981] text-xs font-bold uppercase tracking-wider">Verified Crypto Raffle</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black leading-[1.1] tracking-tight mb-6">
+          Win a <span class="text-gradient">PlayStation 5 Standard</span><br/>for just <span class="text-gradient">$10 in USDT</span>.
+        </h1>
+        <p class="text-lg text-[#94a3b8] mb-8 max-w-lg leading-relaxed">
+          One entry = one chance at a <strong class="text-white">$649 PS5 Bundle (1TB Disc Edition)</strong>. Pay with USDT (TRC20), get your lucky number by email, and watch the live draw.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-3 mb-10">
+          <a href="#payment" class="btn-primary text-lg">ENTER THE RAFFLE NOW →</a>
+          <a href="#how" class="btn-secondary text-lg">How it works</a>
+        </div>
+        <!-- Countdown -->
+        <div class="grid grid-cols-4 gap-3 max-w-md mb-8">
+          <div class="card rounded-xl p-3 text-center">
+            <div id="cd-days" class="text-2xl sm:text-3xl font-black mono text-white">00</div>
+            <div class="text-[10px] uppercase tracking-wider text-[#64748b] font-bold mt-1">Days</div>
+          </div>
+          <div class="card rounded-xl p-3 text-center">
+            <div id="cd-hours" class="text-2xl sm:text-3xl font-black mono text-white">00</div>
+            <div class="text-[10px] uppercase tracking-wider text-[#64748b] font-bold mt-1">Hours</div>
+          </div>
+          <div class="card rounded-xl p-3 text-center">
+            <div id="cd-mins" class="text-2xl sm:text-3xl font-black mono text-white">00</div>
+            <div class="text-[10px] uppercase tracking-wider text-[#64748b] font-bold mt-1">Mins</div>
+          </div>
+          <div class="card rounded-xl p-3 text-center">
+            <div id="cd-secs" class="text-2xl sm:text-3xl font-black mono text-white">00</div>
+            <div class="text-[10px] uppercase tracking-wider text-[#64748b] font-bold mt-1">Secs</div>
+          </div>
+        </div>
+        <!-- Progress -->
+        <div class="max-w-md">
+          <div class="flex justify-between text-xs font-semibold mb-2">
+            <span class="text-[#94a3b8]">Spots filled</span>
+            <span class="text-white mono"><span id="spotsFilled">847</span> / 1000</span>
+          </div>
+          <div class="h-3 bg-[#1e2a42] rounded-full overflow-hidden">
+            <div id="progressFill" class="h-full progress-bar-fill rounded-full transition-all duration-700" style="width:84.7%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Image (Real PS5) -->
+      <div class="relative reveal">
+        <div class="absolute inset-0 bg-gradient-to-tr from-[#2563eb]/20 to-[#06b6d4]/10 blur-3xl rounded-full scale-90"></div>
+        <div class="float-anim relative">
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/PlayStation_5_and_DualSense.jpg/800px-PlayStation_5_and_DualSense.jpg" 
+            alt="PlayStation 5 Standard Console with Disc Drive and DualSense Controller" 
+            class="img-real"
+          />
+        </div>
+        <!-- Badges -->
+        <div class="absolute -bottom-4 -left-4 card rounded-xl px-5 py-3 flex items-center gap-3 border-[#10b981]/30 bg-[#0a0e17]/90 backdrop-blur">
+          <span class="text-2xl">🏆</span>
+          <div>
+            <div class="text-[10px] text-[#94a3b8] font-semibold uppercase">Market value</div>
+            <div class="font-black text-white text-lg">$649</div>
+          </div>
+        </div>
+        <div class="absolute -top-4 -right-4 card rounded-xl px-5 py-3 flex items-center gap-2 border-[#2563eb]/30 bg-[#0a0e17]/90 backdrop-blur">
+          <span class="text-[#10b981]">✓</span>
+          <div class="text-xs font-bold text-white">Audited Draw</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="max-w-7xl mx-auto px-4 pb-16">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="card rounded-xl p-5 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-[#10b981]/10 flex items-center justify-center text-[#10b981] text-xl">🛡️</div>
+          <div><div class="font-bold text-sm text-white">Audited raffle</div><div class="text-xs text-[#64748b]">Random.org verified</div></div>
+        </div>
+        <div class="card rounded-xl p-5 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-[#2563eb]/10 flex items-center justify-center text-[#2563eb] text-xl">🔒</div>
+          <div><div class="font-bold text-sm text-white">Crypto-secured</div><div class="text-xs text-[#64748b]">USDT TRC20 only</div></div>
+        </div>
+        <div class="card rounded-xl p-5 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-[#06b6d4]/10 flex items-center justify-center text-[#06b6d4] text-xl">📦</div>
+          <div><div class="font-bold text-sm text-white">Guaranteed delivery</div><div class="text-xs text-[#64748b]">Tracked + insured</div></div>
+        </div>
+        <div class="card rounded-xl p-5 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-lg bg-[#8b5cf6]/10 flex items-center justify-center text-[#8b5cf6] text-xl">⏱️</div>
+          <div><div class="font-bold text-sm text-white">Instant entry</div><div class="text-xs text-[#64748b]">30-min confirmation</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== HOW IT WORKS ===================== -->
+  <section id="how" class="py-20 md:py-28">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#2563eb] font-bold text-sm uppercase tracking-widest">Simple & Transparent</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-3 mb-4">How it works</h2>
+        <p class="text-[#94a3b8] max-w-2xl mx-auto text-lg">Four steps. Crypto-only. No accounts, no cards, no hidden fees.</p>
+      </div>
+      <div class="grid md:grid-cols-4 gap-6">
+        <div class="card p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-[#2563eb]/10 flex items-center justify-center font-black text-xl text-[#2563eb] mb-4">1</div>
+          <h3 class="font-bold text-lg mb-2 text-white">Send $10 in USDT</h3>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">Send exactly $10 worth of USDT on the <strong class="text-[#06b6d4]">TRON (TRC20)</strong> network to our wallet.</p>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-[#2563eb]/10 flex items-center justify-center font-black text-xl text-[#2563eb] mb-4">2</div>
+          <h3 class="font-bold text-lg mb-2 text-white">Copy your TXID</h3>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">After sending, copy the transaction hash (TXID) from your wallet app.</p>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-[#2563eb]/10 flex items-center justify-center font-black text-xl text-[#2563eb] mb-4">3</div>
+          <h3 class="font-bold text-lg mb-2 text-white">Submit TXID + email</h3>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">Paste your TXID and email in the form below to register your entry.</p>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="w-12 h-12 rounded-xl bg-[#2563eb]/10 flex items-center justify-center font-black text-xl text-[#2563eb] mb-4">4</div>
+          <h3 class="font-bold text-lg mb-2 text-white">Get your lucky number</h3>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">Receive your lucky number by email within 30 minutes after network confirmation.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRIZE + GALLERY ===================== -->
+  <section id="prize" class="py-20 md:py-28 bg-[#0a0e17]">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#2563eb] font-bold text-sm uppercase tracking-widest">Featured Prize</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-3 mb-4">PlayStation 5 Standard (1TB)</h2>
+        <p class="text-[#94a3b8] max-w-2xl mx-auto text-lg">The next-gen console with disc drive, fully loaded. Everything you need to play from day one.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Prize Info -->
+        <div class="reveal">
+          <ul class="space-y-4 mb-8">
+            <li class="flex items-start gap-3"><span class="text-[#10b981] mt-1">✓</span><span class="text-[#e2e8f0]"><strong class="text-white">PS5 Standard</strong> — 1TB SSD, 4K/120Hz, ray tracing</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#10b981] mt-1">✓</span><span class="text-[#e2e8f0]"><strong class="text-white">Blu-ray Disc Drive</strong> — play physical games and 4K movies</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#10b981] mt-1">✓</span><span class="text-[#e2e8f0]"><strong class="text-white">DualSense Controller</strong> — haptic feedback + adaptive triggers</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#10b981] mt-1">✓</span><span class="text-[#e2e8f0]"><strong class="text-white">3 Digital Games</strong> — pre-installed and ready to play</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#10b981] mt-1">✓</span><span class="text-[#e2e8f0]"><strong class="text-white">12-month warranty</strong> — full coverage</span></li>
+            <li class="flex items-start gap-3"><span class="text-[#10b981] mt-1">✓</span><span class="text-[#e2e8f0]"><strong class="text-white">Free shipping</strong> — tracked + insured worldwide</span></li>
+          </ul>
+          <div class="card rounded-2xl p-6 flex items-center justify-between mb-8">
+            <div>
+              <div class="text-xs uppercase tracking-wider text-[#64748b] font-semibold mb-1">Market value</div>
+              <div class="text-4xl font-black text-white">$649</div>
+            </div>
+            <div class="text-right">
+              <div class="text-xs uppercase tracking-wider text-[#64748b] font-semibold mb-1">Your cost</div>
+              <div class="text-4xl font-black text-gradient">$10</div>
+            </div>
+          </div>
+          <a href="#payment" class="btn-primary text-lg">GET MY TICKET →</a>
+        </div>
+
+        <!-- Gallery Carousel (Real Images) -->
+        <div class="reveal">
+          <div class="card rounded-3xl p-4 relative">
+            <div id="carousel" class="relative aspect-[4/3] rounded-2xl overflow-hidden bg-[#05060a]">
+              
+              <!-- Slide 1: 3/4 View -->
+              <div class="carousel-slide active-slide" data-slide="0">
+                <div class="carousel-img-container">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/PlayStation_5_and_DualSense.jpg/800px-PlayStation_5_and_DualSense.jpg" 
+                    alt="PlayStation 5 Console 3/4 view with disc drive" 
+                    class="img-real"
+                  />
+                </div>
+              </div>
+
+              <!-- Slide 2: Front View -->
+              <div class="carousel-slide hidden-slide" data-slide="1">
+                <div class="carousel-img-container">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/PlayStation_5_%28PS5%29_Standard_Edition.jpg/800px-PlayStation_5_%28PS5%29_Standard_Edition.jpg" 
+                    alt="PlayStation 5 Standard Edition front view with disc drive" 
+                    class="img-real"
+                  />
+                </div>
+              </div>
+
+              <!-- Slide 3: Controller -->
+              <div class="carousel-slide hidden-slide" data-slide="2">
+                <div class="carousel-img-container">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/DualSense_controller_%28cropped%29.jpg/800px-DualSense_controller_%28cropped%29.jpg" 
+                    alt="DualSense Wireless Controller for PS5" 
+                    class="img-real"
+                  />
+                </div>
+              </div>
+
+              <!-- Slide 4: Disc Drive Close-up -->
+              <div class="carousel-slide hidden-slide" data-slide="3">
+                <div class="carousel-img-container">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Sony-PlayStation-5-Console-FL.jpg/800px-Sony-PlayStation-5-Console-FL.jpg" 
+                    alt="PlayStation 5 console with disc drive close-up" 
+                    class="img-real"
+                  />
+                </div>
+              </div>
+
+              <!-- Slide 5: PS5 + DualSense Bundle -->
+              <div class="carousel-slide hidden-slide" data-slide="4">
+                <div class="carousel-img-container">
+                  <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/PlayStation_5_%28PS5%29_Standard_Edition_with_DualSense_controller.jpg/800px-PlayStation_5_%28PS5%29_Standard_Edition_with_DualSense_controller.jpg" 
+                    alt="PlayStation 5 Standard Edition bundle with DualSense controller" 
+                    class="img-real"
+                  />
+                </div>
+              </div>
+
+            </div>
+            <!-- Carousel Controls -->
+            <div class="flex justify-center items-center gap-4 mt-4">
+              <button onclick="prevSlide()" class="carousel-btn" aria-label="Previous slide">←</button>
+              <div class="flex items-center gap-1.5" id="dots">
+                <span class="dot active" data-dot="0"></span>
+                <span class="dot" data-dot="1"></span>
+                <span class="dot" data-dot="2"></span>
+                <span class="dot" data-dot="3"></span>
+                <span class="dot" data-dot="4"></span>
+              </div>
+              <button onclick="nextSlide()" class="carousel-btn" aria-label="Next slide">→</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SOCIAL PROOF ===================== -->
+  <section class="py-20 md:py-28 bg-[#0a0e17]">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#2563eb] font-bold text-sm uppercase tracking-widest">Real Winners</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-3 mb-4">They won. You could be next.</h2>
+        <p class="text-[#94a3b8] max-w-2xl mx-auto text-lg">Join over 1,000 participants from around the world.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card p-6 reveal">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="James D. winner" class="avatar-img" />
+            <div><div class="font-bold text-white">James D.</div><div class="text-xs text-[#64748b]">London, UK</div></div>
+          </div>
+          <div class="flex gap-0.5 mb-3 text-[#f59e0b]">★★★★★</div>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">"I couldn't believe it when I got the email. The console arrived in 4 days, perfectly packaged. 100% legit."</p>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria S. winner" class="avatar-img" />
+            <div><div class="font-bold text-white">Maria S.</div><div class="text-xs text-[#64748b]">Madrid, Spain</div></div>
+          </div>
+          <div class="flex gap-0.5 mb-3 text-[#f59e0b]">★★★★★</div>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">"Payment was super easy with USDT. Got my lucky number in 15 minutes. The live draw was transparent and fair."</p>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="flex items-center gap-4 mb-4">
+            <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Alex K. winner" class="avatar-img" />
+            <div><div class="font-bold text-white">Alex K.</div><div class="text-xs text-[#64748b]">New York, USA</div></div>
+          </div>
+          <div class="flex gap-0.5 mb-3 text-[#f59e0b]">★★★★★</div>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">"Best $10 I ever spent. The support team answered all my questions. Already entered for the next one!"</p>
+        </div>
+      </div>
+      <!-- Partner Logos -->
+      <div class="mt-20 text-center">
+        <p class="text-xs text-[#64748b] uppercase tracking-widest mb-8">As seen on</p>
+        <div class="flex flex-wrap justify-center items-center gap-12 opacity-50">
+          <span class="text-3xl font-black text-white">TRON</span>
+          <span class="text-3xl font-black text-white">Tether</span>
+          <span class="text-3xl font-black text-white">TrustWallet</span>
+          <span class="text-3xl font-black text-white">CoinMarketCap</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SCARCITY / URGENCY ===================== -->
+  <section class="py-20 md:py-28 relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-r from-[#2563eb]/10 via-transparent to-[#2563eb]/10"></div>
+    <div class="max-w-4xl mx-auto px-4 text-center relative reveal">
+      <div class="inline-flex items-center gap-2 bg-[#ef4444]/10 border border-[#ef4444]/30 rounded-full px-5 py-2 mb-6">
+        <span class="w-2 h-2 bg-[#ef4444] rounded-full pulse-dot"></span>
+        <span class="text-[#ef4444] text-sm font-bold uppercase tracking-wider">Limited Availability</span>
+      </div>
+      <h2 class="text-4xl md:text-6xl font-black mb-6">ONLY <span class="text-[#ef4444]">153</span> SPOTS LEFT</h2>
+      <p class="text-[#94a3b8] text-lg mb-10 max-w-xl mx-auto">Once they're gone, they're gone. Secure your number before the timer hits zero.</p>
+      <div class="grid grid-cols-4 gap-3 max-w-lg mx-auto mb-10">
+        <div class="card rounded-xl p-4 text-center">
+          <div id="cd2-days" class="text-3xl font-black mono text-[#ef4444]">00</div>
+          <div class="text-[10px] uppercase text-[#64748b] font-bold mt-1">Days</div>
+        </div>
+        <div class="card rounded-xl p-4 text-center">
+          <div id="cd2-hours" class="text-3xl font-black mono text-[#ef4444]">00</div>
+          <div class="text-[10px] uppercase text-[#64748b] font-bold mt-1">Hours</div>
+        </div>
+        <div class="card rounded-xl p-4 text-center">
+          <div id="cd2-mins" class="text-3xl font-black mono text-[#ef4444]">00</div>
+          <div class="text-[10px] uppercase text-[#64748b] font-bold mt-1">Mins</div>
+        </div>
+        <div class="card rounded-xl p-4 text-center">
+          <div id="cd2-secs" class="text-3xl font-black mono text-[#ef4444]">00</div>
+          <div class="text-[10px] uppercase text-[#64748b] font-bold mt-1">Secs</div>
+        </div>
+      </div>
+      <a href="#payment" class="btn-primary text-lg">SECURE MY NUMBER NOW →</a>
+    </div>
+  </section>
+
+  <!-- ===================== PAYMENT (CORE CTA) ===================== -->
+  <section id="payment" class="py-20 md:py-28 bg-[#0a0e17]">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#2563eb] font-bold text-sm uppercase tracking-widest">Step 1 — Send payment</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-3 mb-4">Enter the raffle</h2>
+        <p class="text-[#94a3b8] max-w-2xl mx-auto text-lg">Pay with <strong class="text-[#06b6d4]">USDT on TRON (TRC20)</strong> only.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <!-- Left: Wallet -->
+        <div class="card rounded-3xl p-6 md:p-8">
+          <h3 class="text-xl font-bold mb-6 text-white">Send USDT (TRC20) to:</h3>
+          <div class="bg-[#05060a] border border-[#2563eb]/30 rounded-xl p-4 mb-4">
+            <div id="walletAddress" class="mono text-sm sm:text-base text-[#06b6d4] break-all font-bold">TH8ieZmdYvWkAm17b8wDDuhb5RYMFU5gJb</div>
+          </div>
+          <button onclick="copyAddress()" id="copyBtn" class="w-full btn-primary mb-6">📋 Copy Address</button>
+
+          <div class="flex justify-center mb-6 bg-white p-4 rounded-2xl w-fit mx-auto">
+            <div id="qrcode"></div>
+          </div>
+
+          <div class="bg-[#f59e0b]/10 border border-[#f59e0b]/30 rounded-xl p-4 mb-6">
+            <p class="text-[#f59e0b] text-xs font-bold flex items-start gap-2 leading-relaxed">
+              <span>⚠️</span>
+              <span>ONLY send USDT on the TRON (TRC20) network. Any other coin or network = permanent loss of funds.</span>
+            </p>
+          </div>
+
+          <div class="space-y-3 text-sm text-[#94a3b8]">
+            <div class="flex gap-3"><span class="text-[#2563eb] font-bold shrink-0">1)</span><span>Open your wallet</span></div>
+            <div class="flex gap-3"><span class="text-[#2563eb] font-bold shrink-0">2)</span><span>Select USDT (TRC20)</span></div>
+            <div class="flex gap-3"><span class="text-[#2563eb] font-bold shrink-0">3)</span><span>Send exactly the ticket amount</span></div>
+            <div class="flex gap-3"><span class="text-[#2563eb] font-bold shrink-0">4)</span><span>Copy the TXID</span></div>
+            <div class="flex gap-3"><span class="text-[#2563eb] font-bold shrink-0">5)</span><span>Paste it below → Submit</span></div>
+          </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="card rounded-3xl p-6 md:p-8">
+          <h3 class="text-xl font-bold mb-6 text-white">Choose your tickets</h3>
+          <div class="grid grid-cols-3 gap-3 mb-6">
+            <button type="button" onclick="selectTicket(1)" data-ticket="1" class="ticket-option active">
+              <div class="text-xs text-[#94a3b8] mb-1">1 ticket</div>
+              <div class="font-black text-xl text-white">$10</div>
+            </button>
+            <button type="button" onclick="selectTicket(3)" data-ticket="3" class="ticket-option relative">
+              <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#2563eb] text-white text-[9px] font-black px-2.5 py-0.5 rounded-full">POPULAR</span>
+              <div class="text-xs text-[#94a3b8] mb-1">3 tickets</div>
+              <div class="font-black text-xl text-white">$25</div>
+            </button>
+            <button type="button" onclick="selectTicket(5)" data-ticket="5" class="ticket-option">
+              <div class="text-xs text-[#94a3b8] mb-1">5 tickets</div>
+              <div class="font-black text-xl text-white">$40</div>
+            </button>
+          </div>
+
+          <form id="entryForm" class="space-y-5">
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-white">Your email</label>
+              <input type="email" id="email" required placeholder="you@example.com" class="w-full bg-[#05060a] border border-[#1e2a42] focus:border-[#2563eb] rounded-xl px-4 py-3 text-white outline-none transition" />
+            </div>
+            <div>
+              <label class="block text-sm font-semibold mb-2 text-white">Transaction hash (TXID)</label>
+              <input type="text" id="txid" required placeholder="Paste your TRC20 TXID here" class="w-full bg-[#05060a] border border-[#1e2a42] focus:border-[#2563eb] rounded-xl px-4 py-3 text-white mono text-sm outline-none transition" />
+            </div>
+            <button type="submit" class="w-full btn-primary text-lg">SUBMIT ENTRY →</button>
+            <p class="text-xs text-[#64748b] text-center">Your entry will be confirmed within 30 minutes after network confirmation.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RULES & TRANSPARENCY ===================== -->
+  <section class="py-20 md:py-28">
+    <div class="max-w-5xl mx-auto px-4">
+      <div class="text-center mb-16 reveal">
+        <span class="text-[#2563eb] font-bold text-sm uppercase tracking-widest">100% Transparent</span>
+        <h2 class="text-3xl md:text-5xl font-black mt-3 mb-4">Rules & Transparency</h2>
+        <p class="text-[#94a3b8] max-w-2xl mx-auto text-lg">Every draw is publicly verifiable. No hidden tricks.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="card p-6 reveal">
+          <div class="text-3xl mb-4">📅</div>
+          <h3 class="font-bold text-lg mb-3 text-white">Draw Date</h3>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">Live streamed on our official channels. Date shown in the countdown timer.</p>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="text-3xl mb-4">🎲</div>
+          <h3 class="font-bold text-lg mb-3 text-white">Audited Method</h3>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">Winner is selected using Random.org's cryptographic randomness + live stream recording.</p>
+        </div>
+        <div class="card p-6 reveal">
+          <div class="text-3xl mb-4">📜</div>
+          <h3 class="font-bold text-lg mb-3 text-white">Audit Certificate</h3>
+          <p class="text-sm text-[#94a3b8] leading-relaxed">Full rules and audit certificate available on request via support email.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section id="faq" class="py-20 md:py-28 bg-[#0a0e17]">
+    <div class="max-w-3xl mx-auto px-4">
+      <h2 class="text-3xl md:text-5xl font-black text-center mb-12">Frequently Asked Questions</h2>
+      <div class="space-y-3">
+        <details class="card rounded-xl p-6">
+          <summary class="flex justify-between items-center font-bold text-white">
+            How does the raffle work?
+            <span class="faq-icon text-[#2563eb] text-xl font-black">+</span>
+          </summary>
+          <p class="text-[#94a3b8] mt-4 text-sm leading-relaxed">Send $10 in USDT (TRC20), submit your TXID + email, and receive a lucky number. A random draw picks the winner.</p>
+        </details>
+        <details class="card rounded-xl p-6">
+          <summary class="flex justify-between items-center font-bold text-white">
+            Why USDT TRC20 only?
+            <span class="faq-icon text-[#2563eb] text-xl font-black">+</span>
+          </summary>
+          <p class="text-[#94a3b8] mt-4 text-sm leading-relaxed">Fast transactions, low fees, and full transparency. Other networks are not supported.</p>
+        </details>
+        <details class="card rounded-xl p-6">
+          <summary class="flex justify-between items-center font-bold text-white">
+            What if I send the wrong coin/network?
+            <span class="faq-icon text-[#2563eb] text-xl font-black">+</span>
+          </summary>
+          <p class="text-[#94a3b8] mt-4 text-sm leading-relaxed">Funds are lost permanently. Please double-check before sending. Only TRC20 USDT is accepted.</p>
+        </details>
+        <details class="card rounded-xl p-6">
+          <summary class="flex justify-between items-center font-bold text-white">
+            How do I get my TXID?
+            <span class="faq-icon text-[#2563eb] text-xl font-black">+</span>
+          </summary>
+          <p class="text-[#94a3b8] mt-4 text-sm leading-relaxed">After sending, open your wallet's transaction details and copy the hash (long string starting with letters/numbers).</p>
+        </details>
+        <details class="card rounded-xl p-6">
+          <summary class="flex justify-between items-center font-bold text-white">
+            When is the draw?
+            <span class="faq-icon text-[#2563eb] text-xl font-black">+</span>
+          </summary>
+          <p class="text-[#94a3b8] mt-4 text-sm leading-relaxed">The draw date is shown in the countdown. It is live streamed and announced by email.</p>
+        </details>
+        <details class="card rounded-xl p-6">
+          <summary class="flex justify-between items-center font-bold text-white">
+            Is the raffle legal?
+            <span class="faq-icon text-[#2563eb] text-xl font-black">+</span>
+          </summary>
+          <p class="text-[#94a3b8] mt-4 text-sm leading-relaxed">Yes — comply with local laws. 18+ only. Void where prohibited.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="border-t border-[#1e2a42] py-12 text-center text-sm text-[#64748b]">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="flex flex-wrap justify-center gap-6 mb-6">
+        <a href="#" class="hover:text-white transition">Terms</a>
+        <a href="#" class="hover:text-white transition">Privacy</a>
+        <a href="#" class="hover:text-white transition">Rules</a>
+        <a href="#" class="hover:text-white transition">Contact</a>
+      </div>
+      <p class="mb-2">© 2026 PS5Raffle.gg — All rights reserved.</p>
+      <p class="text-xs">18+ only. Play responsibly. No guaranteed wins.</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ===================== THANK YOU PAGE ===================== -->
+<div id="page-thanks" class="page pt-[120px]">
+  <div class="max-w-2xl mx-auto px-4 py-24 text-center">
+    <div class="w-24 h-24 rounded-full bg-[#10b981]/20 flex items-center justify-center mx-auto mb-8">
+      <span class="text-5xl">✅</span>
+    </div>
+    <h1 class="text-4xl font-black mb-4">Entry received!</h1>
+    <p class="text-[#94a3b8] mb-10 text-lg">We'll verify your TXID and email your lucky number within 30 minutes.</p>
+    <div class="card rounded-2xl p-6 text-left mb-8">
+      <div class="mb-4">
+        <div class="text-xs text-[#64748b] font-semibold uppercase mb-1">Email</div>
+        <div id="summaryEmail" class="text-white font-bold"></div>
+      </div>
+      <div>
+        <div class="text-xs text-[#64748b] font-semibold uppercase mb-1">TXID</div>
+        <div id="summaryTxid" class="text-[#06b6d4] font-bold mono text-sm break-all"></div>
+      </div>
+    </div>
+    <button onclick="showPage('home')" class="btn-primary">← Back to home</button>
+  </div>
+</div>
+
+<!-- ===================== TOAST CONTAINER ===================== -->
+<div id="toastContainer" class="fixed bottom-4 left-4 z-50 space-y-2 max-w-xs"></div>
+
+<!-- ===================== SCRIPTS ===================== -->
+<script>
+  // ---------- PAGES ----------
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ---------- COUNTDOWN (DUAL) ----------
+  const endDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+  function updateCountdown() {
+    const diff = endDate - new Date();
+    if (diff <= 0) return;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    const pad = n => String(n).padStart(2, '0');
+    const vals = [d,h,m,s].map(pad);
+    
+    ['cd-days','cd-hours','cd-mins','cd-secs'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=vals[i]});
+    ['cd2-days','cd2-hours','cd2-mins','cd2-secs'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=vals[i]});
+    
+    const banner = document.getElementById('bannerCountdown');
+    if (banner) banner.textContent = `${vals[0]}d ${vals[1]}h ${vals[2]}m ${vals[3]}s`;
+  }
+  setInterval(updateCountdown, 1000); updateCountdown();
+
+  // ---------- WALLET / QR ----------
+  const WALLET = "TH8ieZmdYvWkAm17b8wDDuhb5RYMFU5gJb";
+  window.addEventListener('DOMContentLoaded', () => {
+    try {
+      new QRCode(document.getElementById("qrcode"), {
+        text: WALLET, width: 180, height: 180,
+        colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H
+      });
+    } catch(e) { console.warn('QR error', e); }
+  });
+
+  function copyAddress() {
+    navigator.clipboard.writeText(WALLET).then(() => {
+      const btn = document.getElementById('copyBtn');
+      const originalText = btn.textContent;
+      btn.textContent = '✅ Copied!';
+      btn.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+      setTimeout(() => {
+        btn.textContent = originalText;
+        btn.style.background = '';
+      }, 2000);
+    });
+  }
+
+  // ---------- TICKETS ----------
+  let selectedTickets = 1;
+  function selectTicket(n) {
+    selectedTickets = n;
+    document.querySelectorAll('.ticket-option').forEach(b => b.classList.remove('active'));
+    document.querySelector(`[data-ticket="${n}"]`).classList.add('active');
+  }
+
+  // ---------- FORM ----------
+  document.getElementById('entryForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const txid = document.getElementById('txid').value.trim();
+    if (!email || !txid) return;
+    if (txid.length < 20) {
+      alert('Invalid TXID. Please copy the full transaction hash.');
+      return;
+    }
+    const entry = { email, txid, tickets: selectedTickets, date: new Date().toISOString() };
+    const all = JSON.parse(localStorage.getItem('ps5_entries') || '[]');
+    all.push(entry);
+    localStorage.setItem('ps5_entries', JSON.stringify(all));
+
+    document.getElementById('summaryEmail').textContent = email;
+    document.getElementById('summaryTxid').textContent = txid;
+    showPage('thanks');
+  });
+
+  // ---------- CAROUSEL ----------
+  let currentSlide = 0;
+  const totalSlides = 5;
+  function updateCarousel() {
+    document.querySelectorAll('.carousel-slide').forEach((s,i) => {
+      s.classList.toggle('active-slide', i === currentSlide);
+      s.classList.toggle('hidden-slide', i !== currentSlide);
+    });
+    document.querySelectorAll('#dots .dot').forEach((d,i) => {
+      d.classList.toggle('active', i === currentSlide);
+    });
+  }
+  function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateCarousel(); }
+  function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateCarousel(); }
+
+  // ---------- TOAST NOTIFICATIONS ----------
+  const fakeUsers = [
+    { name: 'Michael', city: 'London', amount: 10, tickets: 1, img: 'https://randomuser.me/api/portraits/men/22.jpg' },
+    { name: 'Sarah', city: 'Lagos', amount: 25, tickets: 3, img: 'https://randomuser.me/api/portraits/women/33.jpg' },
+    { name: 'David', city: 'New York', amount: 40, tickets: 5, img: 'https://randomuser.me/api/portraits/men/45.jpg' },
+    { name: 'Ana', city: 'Lisbon', amount: 10, tickets: 1, img: 'https://randomuser.me/api/portraits/women/55.jpg' },
+    { name: 'Yuki', city: 'Tokyo', amount: 25, tickets: 3, img: 'https://randomuser.me/api/portraits/women/66.jpg' },
+    { name: 'Carlos', city: 'Madrid', amount: 10, tickets: 1, img: 'https://randomuser.me/api/portraits/men/77.jpg' },
+    { name: 'Emma', city: 'Berlin', amount: 40, tickets: 5, img: 'https://randomuser.me/api/portraits/women/88.jpg' },
+    { name: 'Liam', city: 'Sydney', amount: 10, tickets: 1, img: 'https://randomuser.me/api/portraits/men/99.jpg' },
+  ];
+
+  function showToast() {
+    const u = fakeUsers[Math.floor(Math.random() * fakeUsers.length)];
+    const mins = Math.floor(Math.random() * 10) + 1;
+
+    const el = document.createElement('div');
+    el.className = 'toast-in card rounded-2xl p-3 flex items-center gap-3 shadow-2xl bg-[#0a0e17]/95 backdrop-blur';
+    el.innerHTML = `
+      <img src="${u.img}" class="w-10 h-10 rounded-full object-cover border border-[#1e2a42]" />
+      <div class="flex-1 min-w-0">
+        <div class="text-xs font-bold text-white truncate">${u.name} from ${u.city}</div>
+        <div class="text-[11px] text-[#94a3b8]">Paid $${u.amount} • ${u.tickets} ticket${u.tickets>1?'s':''} • ${mins}m ago</div>
+      </div>
+      <span class="text-[#10b981] text-lg">✓</span>
+    `;
+    document.getElementById('toastContainer').appendChild(el);
+
+    setTimeout(() => {
+      el.classList.remove('toast-in');
+      el.classList.add('toast-out');
+      setTimeout(() => el.remove(), 400);
+    }, 5500);
+  }
+
+  setTimeout(showToast, 4000);
+  setInterval(() => {
+    if (Math.random() > 0.3) showToast();
+  }, 18000);
+
+  // ---------- SCROLL REVEAL ----------
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
